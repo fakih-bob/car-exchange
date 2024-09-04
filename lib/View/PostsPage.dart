@@ -1,11 +1,10 @@
 import 'package:carexchange/Components/Categories.dart';
 import 'package:carexchange/Components/PostsPageBar.dart';
 import 'package:carexchange/Components/SearchBar.dart';
+import 'package:carexchange/Controller/LikeController.dart';
 import 'package:carexchange/Controller/PostController.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:carexchange/View/PostDetails.dart';
-import 'package:carexchange/models/Category.dart';
-import 'package:carexchange/models/Post.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,17 +19,74 @@ class _PostspageState extends State<Postspage> {
   @override
   Widget build(BuildContext context) {
     final PostController controller = Get.put(PostController());
+    final LikeController likecontroller = Get.put(LikeController());
 
     return GetX<PostController>(builder: (_) {
       return Scaffold(
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: const PostsPageBar(),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        drawer: Drawer(
+          backgroundColor: Colors.purple,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              const Text(
+                "hello babe",
+                style: TextStyle(color: Colors.green),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.offNamed(AppRoute.newpost);
+                },
+                child: const Text("New post"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.offNamed(AppRoute.MyLikes);
+                },
+                child: const Text("Show my favorites"),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.offNamed(AppRoute.MyPosts);
+                },
+                child: const Text("Show my Posts"),
+              ),
+              const SizedBox(
+                height: 550,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  controller.logOut();
+                },
+                child: const Text("Logout!"),
+              ),
+              const SizedBox(
+                height: 40,
+              )
+            ],
+          ),
+        ),
         body: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const PostsPageBar(),
               const SizedBox(
                 height: 20,
               ),
@@ -77,6 +133,9 @@ class _PostspageState extends State<Postspage> {
                   itemBuilder: (context, index) {
                     var post = controller
                         .posts[index]; // Get the post from the controller
+                    bool isFavorite = likecontroller
+                        .isFavorite(post.id); // Check if it's a favorite
+
                     return InkWell(
                       onTap: () {
                         Navigator.push(
@@ -103,7 +162,7 @@ class _PostspageState extends State<Postspage> {
                                       color: Colors.grey.shade200,
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Image.network(
-                                      post.car.url), // Use the post data
+                                      post.car.Url), // Use the post data
                                 ),
                                 const SizedBox(
                                   width: 10,
@@ -128,13 +187,31 @@ class _PostspageState extends State<Postspage> {
                                     Text(
                                       post.car.price != null
                                           ? '\$${post.car.price}'
-                                          : 'Price not available', // Use the post data
+                                          : 'Call for the price', // Use the post data
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 18),
                                     ),
                                   ],
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    isFavorite
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color: isFavorite ? Colors.red : null,
+                                  ),
+                                  onPressed: () async {
+                                    try {
+                                      await likecontroller
+                                          .toggleFavorite(post.id);
+                                      setState(
+                                          () {}); // Refresh the UI after toggling favorite
+                                    } catch (e) {
+                                      Get.snackbar('Error', e.toString());
+                                    }
+                                  },
                                 ),
                               ],
                             ),

@@ -16,7 +16,7 @@ class PostDetails extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Image.network(
-                post.car.url,
+                post.car.Url,
                 fit: BoxFit.cover,
               ),
             ),

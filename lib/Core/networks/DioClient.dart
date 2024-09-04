@@ -5,8 +5,8 @@ class DioClient {
     return Dio(
       BaseOptions(
           baseUrl: 'http://10.0.2.2:8000/api',
-          connectTimeout: Duration(seconds: 8),
-          receiveTimeout: Duration(seconds: 5),
+          connectTimeout: Duration(seconds: 14),
+          receiveTimeout: Duration(seconds: 14),
           contentType: Headers.jsonContentType,
           responseType: ResponseType.json,
           validateStatus: (status) {
@@ -14,4 +14,6 @@ class DioClient {
           }),
     );
   }
+
+  static post(String s, {required Map<String, String> data}) {}
 }

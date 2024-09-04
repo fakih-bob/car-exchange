@@ -14,14 +14,6 @@ class PostsPageBar extends StatelessWidget {
               backgroundColor: Colors.grey.shade200,
               padding: const EdgeInsets.all(15)),
           iconSize: 25,
-          icon: const Icon(Icons.menu),
-        ),
-        IconButton(
-          onPressed: () {},
-          style: IconButton.styleFrom(
-              backgroundColor: Colors.grey.shade200,
-              padding: const EdgeInsets.all(15)),
-          iconSize: 25,
           icon: const Icon(Icons.person),
         )
       ],

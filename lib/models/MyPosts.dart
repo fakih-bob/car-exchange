@@ -3,22 +3,19 @@ import 'package:carexchange/models/Car.dart';
 import 'package:carexchange/models/Post.dart';
 import 'package:carexchange/models/User.dart';
 
-class Like {
+class MyPost {
   final int postId;
   final Car car;
-  final Address address;
 
-  Like({
+  MyPost({
     required this.postId,
     required this.car,
-    required this.address,
   });
 
-  factory Like.fromJson(Map<String, dynamic> json) {
-    return Like(
-      postId: json['post_id'],
+  factory MyPost.fromJson(Map<String, dynamic> json) {
+    return MyPost(
+      postId: json['id'],
       car: Car.fromJson(json['car']),
-      address: Address.fromJson(json['address']),
     );
   }
 }

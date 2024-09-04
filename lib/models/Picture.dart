@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class Picture {
-  final int id;
-  final int postId;
+  final int? id;
+  final int? postId;
   final String url;
 
   Picture({
-    required this.id,
-    required this.postId,
+    this.id,
+    this.postId,
     required this.url,
   });
 

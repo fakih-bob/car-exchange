@@ -1,9 +1,9 @@
 import 'package:carexchange/Components/MyTextField.dart';
-import 'package:carexchange/Controller/LoginController.dart';
+import 'package:carexchange/Controller/RegistrationController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Login extends GetView<LoginController> {
+class Registration extends GetView<RegistrationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +30,7 @@ class Login extends GetView<LoginController> {
                 height: 30,
               ),
               const Text(
-                "Login",
+                "Registration",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -42,8 +42,24 @@ class Login extends GetView<LoginController> {
               ),
               MyTextfield(
                 obscureText: false,
+                hintText: 'Name',
+                controller: controller.name,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              MyTextfield(
+                obscureText: false,
                 hintText: 'Email',
                 controller: controller.email,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              MyTextfield(
+                obscureText: false,
+                hintText: 'PhoneNumber',
+                controller: controller.phoneNumber,
               ),
               const SizedBox(
                 height: 20,
@@ -60,7 +76,7 @@ class Login extends GetView<LoginController> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "forget password?",
+                      "Have an account?",
                       style: TextStyle(color: Colors.black),
                     )
                   ],
@@ -71,7 +87,7 @@ class Login extends GetView<LoginController> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  controller.login();
+                  controller.register();
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -88,7 +104,7 @@ class Login extends GetView<LoginController> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                child: const Text('Login'),
+                child: const Text('Registration'),
               ),
             ],
           ),

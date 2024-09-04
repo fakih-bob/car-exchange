@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class Address {
-  final int id;
+  final int? id;
   final String country;
   final String street;
   final String city;
   final String description;
 
   Address({
-    required this.id,
+    this.id,
     required this.country,
     required this.street,
     required this.city,
@@ -30,10 +30,10 @@ class Address {
   factory Address.fromJson(Map<String, dynamic> json) {
     return Address(
       id: json['id'],
-      country: json['country'],
-      street: json['street'],
-      city: json['city'],
-      description: json['description'],
+      country: json['country'] ?? 'Unknown country',
+      street: json['street'] ?? 'Unknown street',
+      city: json['city'] ?? 'Unknown city',
+      description: json['description'] ?? 'No description',
     );
   }
 }
