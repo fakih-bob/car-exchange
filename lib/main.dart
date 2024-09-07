@@ -1,6 +1,7 @@
 import 'package:carexchange/Controller/LoginController.dart';
 import 'package:carexchange/Controller/NewPostController.dart';
 import 'package:carexchange/Controller/PostController.dart';
+import 'package:carexchange/Controller/UpdateController.dart';
 import 'package:carexchange/Routes/AppPage.dart';
 import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ void main() {
   runApp(const MyApp());
   Get.lazyPut(() => LoginController());
   Get.lazyPut(() => PostController());
+  Get.lazyPut(() => Updatecontroller());
 }
 
 class MyApp extends StatelessWidget {

@@ -1,5 +1,8 @@
 import 'package:carexchange/Controller/MyPostsController.dart';
 import 'package:carexchange/Controller/PostController.dart';
+import 'package:carexchange/Controller/UpdateController.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
+import 'package:carexchange/View/UpdatePost.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carexchange/Controller/LikeController.dart';
@@ -18,7 +21,7 @@ class MyPosts extends StatelessWidget {
           backgroundColor: Colors.white,
           appBar: AppBar(
             automaticallyImplyLeading: true,
-            title: const Text("Favorite Posts"),
+            title: const Text("Your Posts"),
             elevation: 0,
             backgroundColor: Colors.transparent,
           ),
@@ -34,7 +37,8 @@ class MyPosts extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Get.offNamed('/newpost'); // Adjust route name if needed
+                    Get.offNamed(
+                        AppRoute.newpost); // Adjust route name if needed
                   },
                   child: const Text("New Post"),
                 ),
@@ -56,23 +60,22 @@ class MyPosts extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "Favorite Posts",
+                    "My Posts",
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   Expanded(
-                    child: controller.favoritePosts.isEmpty
-                        ? Center(
+                    child: myPosts.MyPosts.isEmpty
+                        ? const Center(
                             child: Text(
-                              "No favorites yet.",
+                              "No Posts for you yet.",
                               style: TextStyle(fontSize: 18),
                             ),
                           )
                         : ListView.separated(
                             padding: const EdgeInsets.all(20),
                             itemBuilder: (context, index) {
-                              final postId =
-                                  controller.favoritePosts.keys.toList()[index];
                               final post = myPosts.MyPosts[index];
+                              final postId = post.MyPostId; // Get post ID here
 
                               return Container(
                                 width: double.infinity,
@@ -84,17 +87,17 @@ class MyPosts extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     Container(
-                                        height: 85,
-                                        width: 85,
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                        ),
-                                        child: Image.network(
-                                          post.car.Url,
-                                          fit: BoxFit.cover,
-                                        )),
+                                      height: 85,
+                                      width: 85,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Image.network(
+                                        post.car.Url,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                     const SizedBox(width: 10),
                                     Expanded(
                                       child: Column(
@@ -120,50 +123,35 @@ class MyPosts extends StatelessWidget {
                                           Text(
                                             post.car.price != null
                                                 ? '\$${post.car.price}'
-                                                : 'Call for the price',
+                                                : 'No price',
                                             style: const TextStyle(
                                               color: Colors.black,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 18,
                                             ),
                                           ),
-                                          Text(
-                                            post.car.description ??
-                                                'No description',
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          Text(
-                                            post.car.miles != null
-                                                ? '${post.car.miles} miles'
-                                                : 'Mileage unknown',
-                                            style: const TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 16,
-                                            ),
-                                          ),
                                         ],
                                       ),
                                     ),
                                     IconButton(
-                                      icon: Icon(
-                                        controller.isFavorite(postId)
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
-                                        color: controller.isFavorite(postId)
-                                            ? Colors.red
-                                            : null,
-                                      ),
-                                      onPressed: () async {
-                                        try {
-                                          await controller
-                                              .toggleFavorite(postId);
-                                        } catch (e) {
-                                          Get.snackbar('Error', e.toString());
-                                        }
+                                      onPressed: () {
+                                        Get.to(() => UpdatePost(
+                                              postId: postId,
+                                            ));
                                       },
+                                      icon: const Icon(
+                                        Icons.edit,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        myPosts.deletePost(postId);
+                                      },
+                                      icon: const Icon(
+                                        Icons.delete,
+                                        color: Colors.red,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -171,7 +159,7 @@ class MyPosts extends StatelessWidget {
                             },
                             separatorBuilder: (context, index) =>
                                 const SizedBox(height: 20),
-                            itemCount: controller.favoritePosts.length,
+                            itemCount: myPosts.MyPosts.length,
                           ),
                   ),
                 ],

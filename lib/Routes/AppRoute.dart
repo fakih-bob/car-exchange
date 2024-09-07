@@ -5,4 +5,5 @@ class AppRoute {
   static const String newpost = '/NewPost';
   static const String MyLikes = '/myLikes';
   static const String MyPosts = '/myPosts';
+  static const String updatePost = '/updatePost';
 }

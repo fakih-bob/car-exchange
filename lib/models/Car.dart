@@ -56,4 +56,6 @@ class Car {
       price: (json['price'] as num?)?.toDouble(),
     );
   }
+
+  get pictures => null;
 }

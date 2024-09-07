@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class PostController extends GetxController {
   var posts = <Post>[].obs;
+
   late SharedPreferences prefs;
 
   @override
@@ -20,10 +21,10 @@ class PostController extends GetxController {
   }
 
   void getPosts() async {
-    var request = await DioClient().getInstance().get('/posts');
-    if (request.statusCode == 200) {
-      var requestdata = request.data as List;
-      posts.value = requestdata.map((post) => Post.fromJson(post)).toList();
+    var response = await DioClient().getInstance().get('/posts');
+    if (response.statusCode == 200) {
+      var requestData = response.data as List;
+      posts.value = requestData.map((post) => Post.fromJson(post)).toList();
     }
   }
 
