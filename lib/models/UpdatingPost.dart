@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'Car.dart';
 import 'Address.dart';
-import 'User.dart';
 import 'Picture.dart';
 
 class UpdatingPost {

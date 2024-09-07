@@ -4,6 +4,7 @@ import 'package:carexchange/Binding/MyPostsBinding.dart';
 import 'package:carexchange/Binding/PostBinding.dart';
 import 'package:carexchange/Binding/PostingBinding.dart';
 import 'package:carexchange/Binding/RegistrationBinding.dart';
+import 'package:carexchange/Binding/UserBinding.dart';
 import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:carexchange/View/Login.dart';
 import 'package:carexchange/View/MyLikes.dart';
@@ -11,6 +12,7 @@ import 'package:carexchange/View/MyPosts.dart';
 import 'package:carexchange/View/NewPost.dart';
 import 'package:carexchange/View/PostsPage.dart';
 import 'package:carexchange/View/Registration.dart';
+import 'package:carexchange/View/UserProfile.dart';
 import 'package:get/get.dart';
 
 class AppPage {
@@ -32,5 +34,7 @@ class AppPage {
         name: AppRoute.MyPosts,
         page: () => MyPosts(),
         binding: Mypostsbinding()),
+    GetPage(
+        name: AppRoute.user, page: () => UserProfile(), binding: Userbinding()),
   ];
 }

@@ -31,53 +31,49 @@ class _PostspageState extends State<Postspage> {
           backgroundColor: Colors.transparent,
         ),
         drawer: Drawer(
-          backgroundColor: Colors.purple,
+          backgroundColor: const Color.fromARGB(255, 4, 59, 154),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const Text(
-                "hello babe",
-                style: TextStyle(color: Colors.green),
-              ),
               SizedBox(
-                height: 20,
+                height: 55,
               ),
+              const Text(
+                "Welcome, User!",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Get.offNamed(AppRoute.newpost);
                 },
                 child: const Text("New post"),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Get.offNamed(AppRoute.MyLikes);
                 },
                 child: const Text("Show my favorites"),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   Get.offNamed(AppRoute.MyPosts);
                 },
-                child: const Text("Show my Posts"),
+                child: const Text("Show my posts"),
               ),
-              const SizedBox(
-                height: 550,
-              ),
+              const Spacer(),
               ElevatedButton(
                 onPressed: () {
                   controller.logOut();
                 },
-                child: const Text("Logout!"),
+                child: const Text("Logout"),
               ),
-              const SizedBox(
-                height: 40,
-              )
+              const SizedBox(height: 40),
             ],
           ),
         ),

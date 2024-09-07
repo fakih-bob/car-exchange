@@ -26,23 +26,42 @@ class MyPosts extends StatelessWidget {
             backgroundColor: Colors.transparent,
           ),
           drawer: Drawer(
-            backgroundColor: Colors.purple,
+            backgroundColor: const Color.fromARGB(255, 4, 59, 154),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                const Text(
-                  "Hello, welcome!",
-                  style: TextStyle(color: Colors.green),
+                SizedBox(
+                  height: 55,
                 ),
-                const SizedBox(height: 20),
+                const Text(
+                  "Welcome, User!",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    Get.offNamed(
-                        AppRoute.newpost); // Adjust route name if needed
+                    Get.offNamed(AppRoute.newpost);
                   },
-                  child: const Text("New Post"),
+                  child: const Text("New post"),
                 ),
-                const SizedBox(height: 550),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.offNamed(AppRoute.MyLikes);
+                  },
+                  child: const Text("Show my favorites"),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Get.offNamed(AppRoute.MyPosts);
+                  },
+                  child: const Text("Show my posts"),
+                ),
+                const Spacer(),
                 ElevatedButton(
                   onPressed: () {
                     controller1.logOut();
