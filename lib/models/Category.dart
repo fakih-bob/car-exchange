@@ -6,8 +6,7 @@ class Category {
 }
 
 final List<Category> categories = [
-  Category(image: 'assets/images/logo.png', title: 'Pc'),
-  Category(image: 'assets/images/Header.jpg', title: 'Pc'),
-  Category(image: 'assets/images/logo.png', title: 'Pc'),
-  Category(image: 'assets/images/Header.jpg', title: 'Pc')
+  Category(image: 'assets/images/logo.png', title: 'Car'),
+  Category(image: 'assets/images/Header.jpg', title: 'MotorCycle'),
+  Category(image: 'assets/images/logo.png', title: 'Truck'),
 ];

@@ -1,5 +1,6 @@
 import 'package:carexchange/Components/MyTextField.dart';
 import 'package:carexchange/Controller/UpdateController.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,7 +8,7 @@ class UpdatePost extends StatelessWidget {
   final List<String> options = <String>[
     'Car',
     'Truck',
-    'Motorcycle',
+    'MotorCycle',
   ];
   final int postId;
   UpdatePost({Key? key, required this.postId}) : super(key: key);
@@ -31,9 +32,10 @@ class UpdatePost extends StatelessWidget {
                 Obx(
                   () => DropdownButton<String>(
                     hint: const Text('Select a category'),
-                    value: updatecontroller.selectedOption.value.isEmpty
-                        ? null
-                        : updatecontroller.selectedOption.value,
+                    value:
+                        options.contains(updatecontroller.selectedOption.value)
+                            ? updatecontroller.selectedOption.value
+                            : null,
                     items: options.map((option) {
                       return DropdownMenuItem<String>(
                         value: option,
@@ -41,7 +43,7 @@ class UpdatePost extends StatelessWidget {
                       );
                     }).toList(),
                     onChanged: (String? newValue) {
-                      updatecontroller.selectedOption.value = newValue!;
+                      updatecontroller.selectedOption.value = newValue ?? '';
                     },
                     isExpanded: true,
                   ),
@@ -166,6 +168,7 @@ class UpdatePost extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     updatecontroller.updatePost(postId);
+                    Get.offNamed(AppRoute.posts);
                   },
                   child: const Text('Update Post'),
                 ),
@@ -175,9 +178,8 @@ class UpdatePost extends StatelessWidget {
                     final post = await updatecontroller.getPostById(postId);
                     if (post != null) {
                       updatecontroller.updateFormFields(post);
-                      print(post);
                     } else {
-                      print("post is null");
+                      Get.snackbar('Error', 'Failed to fetch post data');
                     }
                   },
                   child: const Text('get Post data'),

@@ -28,13 +28,19 @@ class UpdatingPost {
   String toJson() => json.encode(toMap());
 
   factory UpdatingPost.fromJson(Map<String, dynamic> json) {
+    // Ensure that 'pictures' is a list and not null
+    var picturesJson = json['pictures'] as List<dynamic>?;
+    List<Picture> picturesList = picturesJson != null
+        ? picturesJson
+            .map((item) => Picture.fromJson(item as Map<String, dynamic>))
+            .toList()
+        : [];
+
     return UpdatingPost(
       id: json['id'],
       car: Car.fromJson(json['car']),
       address: Address.fromJson(json['address']),
-      pictures: (json['pictures'] as List<dynamic>)
-          .map((item) => Picture.fromJson(item as Map<String, dynamic>))
-          .toList(),
+      pictures: picturesList,
     );
   }
 }

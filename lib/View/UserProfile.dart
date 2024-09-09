@@ -23,7 +23,6 @@ class _UserProfileState extends State<UserProfile> {
   @override
   void initState() {
     super.initState();
-    // Fetch user data when the screen initializes
     userController.getUser();
   }
 

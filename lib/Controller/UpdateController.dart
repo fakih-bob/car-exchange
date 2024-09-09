@@ -1,6 +1,5 @@
 import 'package:carexchange/Controller/PostController.dart';
 import 'package:carexchange/Core/networks/DioClient-auth.dart';
-import 'package:carexchange/models/Post.dart';
 import 'package:carexchange/models/UpdatingPost.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,7 +9,7 @@ class Updatecontroller extends GetxController {
   late DioClient1 dioClient1;
   final PostController postController = PostController();
 
-  var selectedOption = RxString('');
+  var selectedOption = ''.obs;
   final name = TextEditingController();
   final brand = TextEditingController();
   final color = TextEditingController();
@@ -41,6 +40,8 @@ class Updatecontroller extends GetxController {
       var response = await dioClient1.getInstance().get('/post/$id');
       if (response.statusCode == 200) {
         return UpdatingPost.fromJson(response.data);
+      } else {
+        Get.snackbar('Error', 'Failed to fetch post: ${response.statusCode}');
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to fetch post: $e');
@@ -49,7 +50,13 @@ class Updatecontroller extends GetxController {
   }
 
   void updateFormFields(UpdatingPost post) {
-    selectedOption.value = post.car.category;
+    if (post == null) {
+      Get.snackbar('Error', 'Post data is null');
+      return;
+    }
+
+    // Update form fields with post data
+    selectedOption.value = post.car.category ?? '';
     name.text = post.car.name ?? '';
     brand.text = post.car.brand ?? '';
     color.text = post.car.color ?? '';
@@ -62,14 +69,22 @@ class Updatecontroller extends GetxController {
     city.text = post.address.city ?? '';
     street.text = post.address.street ?? '';
     addressDescription.text = post.address.description ?? '';
-    url1.text = post.pictures.isNotEmpty ? post.pictures[0].url ?? '' : '';
-    url2.text = post.pictures.length > 1 ? post.pictures[1].url ?? '' : '';
-    url3.text = post.pictures.length > 2 ? post.pictures[2].url ?? '' : '';
-    url4.text = post.pictures.length > 3 ? post.pictures[3].url ?? '' : '';
-    url5.text = post.pictures.length > 4 ? post.pictures[4].url ?? '' : '';
+
+    // Update picture URLs
+    final pictures = post.pictures;
+    url1.text = pictures.isNotEmpty ? pictures[0].url ?? '' : '';
+    url2.text = pictures.length > 1 ? pictures[1].url ?? '' : '';
+    url3.text = pictures.length > 2 ? pictures[2].url ?? '' : '';
+    url4.text = pictures.length > 3 ? pictures[3].url ?? '' : '';
+    url5.text = pictures.length > 4 ? pictures[4].url ?? '' : '';
   }
 
   Future<void> updatePost(int postId) async {
+    if (selectedOption.value.isEmpty) {
+      Get.snackbar('Error', 'Please select a category');
+      return;
+    }
+
     final updatedPost = {
       'address': {
         'country': country.text,
@@ -106,7 +121,7 @@ class Updatecontroller extends GetxController {
         Get.snackbar('Success', 'Post updated successfully');
         postController.getPosts();
       } else {
-        Get.snackbar('Error', 'Failed to update post');
+        Get.snackbar('Error', 'Failed to update post: ${response.statusCode}');
       }
     } catch (e) {
       Get.snackbar('Error', 'An error occurred: $e');

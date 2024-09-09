@@ -17,10 +17,14 @@ class MyLikes extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            automaticallyImplyLeading: true,
-            title: const Text("Favorite Posts"),
-            elevation: 0,
-            backgroundColor: Colors.transparent,
+            title: const Text('Favorite Posts'),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                Get.offNamed(
+                    AppRoute.posts); // Navigates back to the previous screen
+              },
+            ),
           ),
           drawer: Drawer(
             backgroundColor: const Color.fromARGB(255, 4, 59, 154),

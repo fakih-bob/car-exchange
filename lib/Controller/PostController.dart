@@ -28,6 +28,16 @@ class PostController extends GetxController {
     }
   }
 
+  void getPostByCategory(String category) async {
+    var response =
+        await DioClient().getInstance().get('/fetchByCategory/$category');
+    posts.value = [];
+    if (response.statusCode == 200) {
+      var requestData = response.data as List;
+      posts.value = requestData.map((post) => Post.fromJson(post)).toList();
+    }
+  }
+
   void logOut() async {
     await prefs.remove('token');
     Get.offNamed(AppRoute.login);

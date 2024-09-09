@@ -1,5 +1,6 @@
 import 'package:carexchange/Components/MyTextField.dart';
 import 'package:carexchange/Controller/NewPostController.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,13 +8,24 @@ class NewPost extends GetView<Newpostcontroller> {
   final List<String> options = <String>[
     'Car',
     'Truck',
-    'motorcycle',
+    'MotorCycle',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey,
+      appBar: AppBar(
+        title: const Text('Create Post'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offNamed(
+                AppRoute.posts); // Navigates back to the previous screen
+          },
+        ),
+        backgroundColor: Colors.black,
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
@@ -70,7 +82,7 @@ class NewPost extends GetView<Newpostcontroller> {
                 const SizedBox(height: 18),
                 MyTextfield(
                   obscureText: false,
-                  hintText: 'price',
+                  hintText: 'Price',
                   controller: controller.price,
                 ),
                 const SizedBox(height: 18),
@@ -159,6 +171,7 @@ class NewPost extends GetView<Newpostcontroller> {
                 ElevatedButton(
                   onPressed: () {
                     controller.postingCar();
+                    Get.offNamed(AppRoute.posts);
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
