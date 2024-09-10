@@ -1,5 +1,6 @@
 import 'package:carexchange/Components/MyTextField.dart';
 import 'package:carexchange/Controller/RegistrationController.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -65,19 +66,27 @@ class Registration extends GetView<RegistrationController> {
                 height: 20,
               ),
               MyTextfield(
-                obscureText: true,
+                obscureText: controller.password.text.isEmpty ? false : true,
                 hintText: 'Password',
                 controller: controller.password,
               ),
               const SizedBox(height: 7),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      "Have an account?",
-                      style: TextStyle(color: Colors.black),
+                    GestureDetector(
+                      onTap: () {
+                        Get.offNamed(AppRoute.login);
+                      },
+                      child: const Text(
+                        "Have account previously?",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
                     )
                   ],
                 ),

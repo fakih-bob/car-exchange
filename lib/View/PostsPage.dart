@@ -7,6 +7,7 @@ import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:carexchange/View/PostDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Postspage extends StatefulWidget {
   const Postspage({super.key});
@@ -18,6 +19,12 @@ class Postspage extends StatefulWidget {
 class _PostspageState extends State<Postspage> {
   final PostController controller = Get.put(PostController());
   final LikeController likecontroller = Get.put(LikeController());
+
+  Future<bool> _isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    // Check if the token exists and is not null
+    return prefs.getString('token') != null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +41,7 @@ class _PostspageState extends State<Postspage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            SizedBox(height: 55),
+            const SizedBox(height: 55),
             const Text(
               "Welcome, User!",
               style: TextStyle(
@@ -42,21 +49,21 @@ class _PostspageState extends State<Postspage> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Get.offNamed(AppRoute.newpost);
               },
               child: const Text("New post"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Get.offNamed(AppRoute.MyLikes);
               },
               child: const Text("Show my favorites"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Get.offNamed(AppRoute.MyPosts);
@@ -64,11 +71,29 @@ class _PostspageState extends State<Postspage> {
               child: const Text("Show my posts"),
             ),
             const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                controller.logOut();
+            FutureBuilder<bool>(
+              future: _isLoggedIn(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(); // Show loading indicator
+                }
+                final isLoggedIn = snapshot.data ?? false;
+
+                return ElevatedButton(
+                  onPressed: () {
+                    if (isLoggedIn) {
+                      controller.logOut();
+                    } else {
+                      Get.offNamed(
+                          AppRoute.login); // Redirect to login if not logged in
+                    }
+                  },
+                  child: Text(isLoggedIn ? "Logout" : "Login"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: isLoggedIn ? Colors.red : Colors.green,
+                  ),
+                );
               },
-              child: const Text("Logout"),
             ),
             const SizedBox(height: 40),
           ],
@@ -185,7 +210,7 @@ class _PostspageState extends State<Postspage> {
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   IconButton(
                                     icon: Icon(
                                       isFavorite

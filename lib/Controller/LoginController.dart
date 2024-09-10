@@ -23,25 +23,32 @@ class LoginController extends GetxController {
   }
 
   void login() async {
-    RegistrationUser user = RegistrationUser(
-        email: email.value.text, password: password.value.text);
-    String requestBody = user.toJson();
+    if (email.text.isEmpty) {
+      email.text = 'email is required';
+    }
+    if (password.text.isEmpty) {
+      password.text = 'password is required';
+    } else {
+      RegistrationUser user = RegistrationUser(
+          email: email.value.text, password: password.value.text);
+      String requestBody = user.toJson();
 
-    try {
-      final response =
-          await dioClient.getInstance().post("/login", data: requestBody);
+      try {
+        final response =
+            await dioClient.getInstance().post("/login", data: requestBody);
 
-      if (response.statusCode == 200) {
-        print(response.data);
-        await prefs.setString('token', response.data['token']);
-        dioClient.setAuthorizationToken(response.data['token']);
-        print("logged in");
-        Get.offNamed(AppRoute.posts); // Navigate to posts page after login
-      } else {
-        print("wrong email or password");
+        if (response.statusCode == 200) {
+          print(response.data);
+          await prefs.setString('token', response.data['token']);
+          dioClient.setAuthorizationToken(response.data['token']);
+          print("logged in");
+          Get.offNamed(AppRoute.posts); // Navigate to posts page after login
+        } else {
+          print("wrong email or password");
+        }
+      } catch (e) {
+        print("Error during login: ${e.toString()}");
       }
-    } catch (e) {
-      print("Error during login: ${e.toString()}");
     }
   }
 }

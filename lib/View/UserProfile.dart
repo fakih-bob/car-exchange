@@ -31,56 +31,16 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F7FA), // Softer background color
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: const PostsPageBar(),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
-      drawer: Drawer(
-        backgroundColor: const Color.fromARGB(255, 4, 59, 154),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SizedBox(height: 45),
-            const Text(
-              "Welcome, User!",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.offNamed(AppRoute.newpost);
-              },
-              child: const Text("New post"),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.offNamed(AppRoute.MyLikes);
-              },
-              child: const Text("Show my favorites"),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.offNamed(AppRoute.MyPosts);
-              },
-              child: const Text("Show my posts"),
-            ),
-            const Spacer(),
-            ElevatedButton(
-              onPressed: () {
-                postController.logOut();
-              },
-              child: const Text("Logout"),
-            ),
-            const SizedBox(height: 40),
-          ],
+        title: const Text('Favorite Posts'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offNamed(
+                AppRoute.posts); // Navigates back to the previous screen
+          },
         ),
       ),
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -168,6 +128,26 @@ class _UserProfileState extends State<UserProfile> {
                   },
                   icon: Icon(Icons.edit),
                   label: Text('Edit Profile'),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    textStyle: TextStyle(fontSize: 18),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    updateUserController.DeleteUser();
+                    postController.logOut();
+                  },
+                  icon: Icon(Icons.delete_forever),
+                  label: Text('Delete account'),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: const Color.fromARGB(255, 4, 59, 154),

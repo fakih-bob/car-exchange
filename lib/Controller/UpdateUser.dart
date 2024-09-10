@@ -50,4 +50,20 @@ class Updateusercontroller extends GetxController {
       Get.snackbar('Error', 'An error occurred: $e');
     }
   }
+
+  Future<void> DeleteUser() async {
+    try {
+      final response = await dioClient1.getInstance().delete('/UserDelete');
+
+      if (response.statusCode == 200) {
+        Get.snackbar('Success', 'User removed successfully');
+      } else {
+        print(
+            'Failed to remove favorite: ${response.statusCode} - ${response.statusMessage}');
+        throw Exception('Failed to remove favorite');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to remove favorite: ${e.toString()}');
+    }
+  }
 }
