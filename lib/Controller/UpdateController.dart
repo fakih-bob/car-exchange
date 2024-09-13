@@ -1,5 +1,6 @@
 import 'package:carexchange/Controller/PostController.dart';
 import 'package:carexchange/Core/networks/DioClient-auth.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:carexchange/models/UpdatingPost.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,6 +34,7 @@ class Updatecontroller extends GetxController {
     super.onInit();
     final prefs = await SharedPreferences.getInstance();
     dioClient1 = DioClient1(prefs);
+    Get.lazyPut(() => Updatecontroller());
   }
 
   Future<UpdatingPost?> getPostById(int id) async {
@@ -84,47 +86,101 @@ class Updatecontroller extends GetxController {
       Get.snackbar('Error', 'Please select a category');
       return;
     }
+    if (name.value.text.isEmpty) {
+      Get.snackbar('Error', 'Name field is required');
+      return;
+    }
 
-    final updatedPost = {
-      'address': {
-        'country': country.text,
-        'street': street.text,
-        'city': city.text,
-        'description': addressDescription.text,
-      },
-      'car': {
-        'category': selectedOption.value,
-        'brand': brand.text,
-        'name': name.text,
-        'color': color.text,
-        'description': description.text,
-        'miles': double.tryParse(miles.text),
-        'year': int.tryParse(year.text),
-        'Url': url.text,
-        'price': double.tryParse(price.text),
-      },
-      'pictures': [
-        if (url1.text.isNotEmpty) {'Url': url1.text},
-        if (url2.text.isNotEmpty) {'Url': url2.text},
-        if (url3.text.isNotEmpty) {'Url': url3.text},
-        if (url4.text.isNotEmpty) {'Url': url4.text},
-        if (url5.text.isNotEmpty) {'Url': url5.text},
-      ]
-    };
+    if (brand.value.text.isEmpty) {
+      Get.snackbar('Error', 'Brand field is required');
+      return;
+    }
 
-    try {
-      var response = await dioClient1
-          .getInstance()
-          .put('/$postId/updatePost', data: updatedPost);
+    if (year.value.text.isEmpty) {
+      Get.snackbar('Error', 'Year field is required');
+      return;
+    }
 
-      if (response.statusCode == 200) {
-        Get.snackbar('Success', 'Post updated successfully');
-        postController.getPosts();
-      } else {
-        Get.snackbar('Error', 'Failed to update post: ${response.statusCode}');
+    if (description.value.text.isEmpty) {
+      Get.snackbar('Error', 'CarDescription field is required');
+      return;
+    }
+    if (addressDescription.value.text.isEmpty) {
+      Get.snackbar('Error', 'AddressDescription field is required');
+      return;
+    }
+
+    if (city.value.text.isEmpty) {
+      Get.snackbar('Error', 'City field is required');
+      return;
+    }
+
+    if (color.value.text.isEmpty) {
+      Get.snackbar('Error', 'Color field is required');
+      return;
+    }
+
+    if (url.value.text.isEmpty) {
+      Get.snackbar('Error', 'CarProfile field is required');
+      return;
+    }
+    if (country.value.text.isEmpty) {
+      Get.snackbar('Error', 'Country field is required');
+      return;
+    }
+
+    if (street.value.text.isEmpty) {
+      Get.snackbar('Error', 'Street field is required');
+      return;
+    }
+
+    if (miles.value.text.isEmpty) {
+      Get.snackbar('Error', 'Miles field is required');
+      return;
+    } else {
+      final updatedPost = {
+        'address': {
+          'country': country.text,
+          'street': street.text,
+          'city': city.text,
+          'description': addressDescription.text,
+        },
+        'car': {
+          'category': selectedOption.value,
+          'brand': brand.text,
+          'name': name.text,
+          'color': color.text,
+          'description': description.text,
+          'miles': double.tryParse(miles.text),
+          'year': int.tryParse(year.text),
+          'Url': url.text,
+          'price': double.tryParse(price.text),
+        },
+        'pictures': [
+          if (url1.text.isNotEmpty) {'Url': url1.text},
+          if (url2.text.isNotEmpty) {'Url': url2.text},
+          if (url3.text.isNotEmpty) {'Url': url3.text},
+          if (url4.text.isNotEmpty) {'Url': url4.text},
+          if (url5.text.isNotEmpty) {'Url': url5.text},
+        ]
+      };
+
+      try {
+        var response = await dioClient1
+            .getInstance()
+            .put('/$postId/updatePost', data: updatedPost);
+
+        if (response.statusCode == 200) {
+          Get.snackbar('Success', 'Post updated successfully');
+          postController.getPosts();
+          Get.offNamed(AppRoute.posts);
+        } else {
+          Get.snackbar(
+              'Error', 'Failed to update post: ${response.statusCode}');
+        }
+      } catch (e) {
+        Get.snackbar('Error', 'An error occurred: $e');
       }
-    } catch (e) {
-      Get.snackbar('Error', 'An error occurred: $e');
     }
   }
 }

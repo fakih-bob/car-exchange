@@ -15,9 +15,20 @@ class UpdatePost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Updatecontroller updatecontroller = Get.find<Updatecontroller>();
+    final Updatecontroller updatecontroller = Get.put(Updatecontroller());
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Color(0xFFF5F7FA),
+      appBar: AppBar(
+        title: const Text('Update Post Info'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offNamed(
+                AppRoute.posts); // Navigates back to the previous screen
+          },
+        ),
+        backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
@@ -166,24 +177,41 @@ class UpdatePost extends StatelessWidget {
                 ),
                 const SizedBox(height: 18),
                 ElevatedButton(
-                  onPressed: () {
-                    updatecontroller.updatePost(postId);
-                    Get.offNamed(AppRoute.posts);
-                  },
-                  child: const Text('Update Post'),
-                ),
+                    onPressed: () {
+                      updatecontroller.updatePost(postId);
+                    },
+                    child: const Text('Update Post'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      textStyle: TextStyle(fontSize: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    )),
                 const SizedBox(height: 18),
                 ElevatedButton(
-                  onPressed: () async {
-                    final post = await updatecontroller.getPostById(postId);
-                    if (post != null) {
-                      updatecontroller.updateFormFields(post);
-                    } else {
-                      Get.snackbar('Error', 'Failed to fetch post data');
-                    }
-                  },
-                  child: const Text('get Post data'),
-                ),
+                    onPressed: () async {
+                      final post = await updatecontroller.getPostById(postId);
+                      if (post != null) {
+                        updatecontroller.updateFormFields(post);
+                      } else {
+                        Get.snackbar('Error', 'Failed to fetch post data');
+                      }
+                    },
+                    child: const Text('get Post data'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      textStyle: TextStyle(fontSize: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    )),
               ],
             ),
           ),

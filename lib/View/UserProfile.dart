@@ -31,7 +31,8 @@ class _UserProfileState extends State<UserProfile> {
     return Scaffold(
       backgroundColor: Color(0xFFF5F7FA), // Softer background color
       appBar: AppBar(
-        title: const Text('Favorite Posts'),
+        backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+        title: const Text('User Profile'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

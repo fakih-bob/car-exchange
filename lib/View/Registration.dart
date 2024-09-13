@@ -8,7 +8,17 @@ class Registration extends GetView<RegistrationController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Color(0xFFF5F7FA),
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offNamed(
+                AppRoute.posts); // Navigates back to the previous screen
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
             child: Center(
@@ -22,7 +32,7 @@ class Registration extends GetView<RegistrationController> {
                   height: 150,
                   decoration: BoxDecoration(
                     image: const DecorationImage(
-                      image: AssetImage('assets/images/logo.png'),
+                      image: AssetImage('assets/images/Header.jpg'),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -83,7 +93,7 @@ class Registration extends GetView<RegistrationController> {
                       child: const Text(
                         "Have account previously?",
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: const Color.fromARGB(255, 4, 59, 154),
                           decoration: TextDecoration.underline,
                         ),
                       ),
@@ -100,7 +110,7 @@ class Registration extends GetView<RegistrationController> {
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.black,
+                  backgroundColor: const Color.fromARGB(255, 4, 59, 154),
                   shadowColor: Colors.black,
                   elevation: 10,
                   shape: RoundedRectangleBorder(

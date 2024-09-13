@@ -21,7 +21,7 @@ class LikeController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     dioClient =
         DioClient1(prefs); // Initialize DioClient1 for authenticated requests
-    await loadFavorites(); // Load favorites when the controller is initialized
+    loadFavorites(); // Load favorites when the controller is initialized
   }
 
   // Function to toggle the favorite status of a post

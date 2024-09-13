@@ -18,14 +18,15 @@ class MyPosts extends StatelessWidget {
     return GetX<LikeController>(
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFFF5F7FA),
           appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 4, 59, 154),
             title: const Text('Your Posts'),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
-                Get.offNamed(
-                    AppRoute.posts); // Navigates back to the previous screen
+                Get.offNamed(AppRoute.posts);
+                // Navigates back to the previous screen
               },
             ),
           ),
@@ -164,7 +165,8 @@ class MyPosts extends StatelessWidget {
                                       },
                                       icon: const Icon(
                                         Icons.edit,
-                                        color: Colors.blue,
+                                        color: const Color.fromARGB(
+                                            255, 4, 59, 154),
                                       ),
                                     ),
                                     IconButton(

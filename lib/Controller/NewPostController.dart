@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:carexchange/Core/networks/DioClient-auth.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:carexchange/models/Address.dart';
 import 'package:carexchange/models/Car.dart';
 import 'package:carexchange/models/Picture.dart';
@@ -64,57 +65,115 @@ class Newpostcontroller extends GetxController {
   Future<void> postingCar() async {
     addPictures(); // Call this method to populate pictureList
 
-    Car car = Car(
-        category: selectedOption.value,
-        brand: brand.text,
-        name: name.text,
-        color: color.text,
-        description: description.text,
-        miles: double.tryParse(miles.text) ?? 0.0, // Handle parsing error
-        year: int.tryParse(year.text) ?? 0,
-        Url: url.text, // Ensure 'url' is used consistently
-        price: double.tryParse(price.text) ?? 0.0);
+    if (selectedOption.value.isEmpty) {
+      Get.snackbar('Error', 'Please select a category');
+      return;
+    }
+    if (name.value.text.isEmpty) {
+      Get.snackbar('Error', 'Name field is required');
+      return;
+    }
 
-    Address address = Address(
-      country: country.text,
-      street: street.text,
-      city: city.text,
-      description: addressDescription.text,
-    );
+    if (brand.value.text.isEmpty) {
+      Get.snackbar('Error', 'Brand field is required');
+      return;
+    }
 
-    Posting user = Posting(
-      car: car,
-      address: address,
-      pictures: pictureList, // Pass the list of pictures here
-    );
+    if (year.value.text.isEmpty) {
+      Get.snackbar('Error', 'Year field is required');
+      return;
+    }
 
-    String requestBody = user.toJson();
+    if (description.value.text.isEmpty) {
+      Get.snackbar('Error', 'CarDescription field is required');
+      return;
+    }
+    if (addressDescription.value.text.isEmpty) {
+      Get.snackbar('Error', 'AddressDescription field is required');
+      return;
+    }
 
-    try {
-      var response =
-          await dioClient1.getInstance().post("/StorePost", data: requestBody);
-      if (response.statusCode == 200) {
-        // Replace with your success dialog or handling
-        Get.snackbar('Success', 'Post created successfully');
-        print(response.data);
-      } else {
-        print('Error: ${response.statusCode} ${response.statusMessage}');
-      }
-    } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionError) {
-        if (e.error is SocketException) {
-          print('Socket Exception: ${e.error}');
+    if (city.value.text.isEmpty) {
+      Get.snackbar('Error', 'City field is required');
+      return;
+    }
+
+    if (color.value.text.isEmpty) {
+      Get.snackbar('Error', 'Color field is required');
+      return;
+    }
+
+    if (url.value.text.isEmpty) {
+      Get.snackbar('Error', 'CarProfile field is required');
+      return;
+    }
+    if (country.value.text.isEmpty) {
+      Get.snackbar('Error', 'Country field is required');
+      return;
+    }
+
+    if (street.value.text.isEmpty) {
+      Get.snackbar('Error', 'Street field is required');
+      return;
+    }
+
+    if (miles.value.text.isEmpty) {
+      Get.snackbar('Error', 'Miles field is required');
+      return;
+    } else {
+      Car car = Car(
+          category: selectedOption.value,
+          brand: brand.text,
+          name: name.text,
+          color: color.text,
+          description: description.text,
+          miles: double.tryParse(miles.text) ?? 0.0, // Handle parsing error
+          year: int.tryParse(year.text) ?? 0,
+          Url: url.text, // Ensure 'url' is used consistently
+          price: double.tryParse(price.text) ?? 0.0);
+
+      Address address = Address(
+        country: country.text,
+        street: street.text,
+        city: city.text,
+        description: addressDescription.text,
+      );
+
+      Posting user = Posting(
+        car: car,
+        address: address,
+        pictures: pictureList, // Pass the list of pictures here
+      );
+
+      String requestBody = user.toJson();
+
+      try {
+        var response = await dioClient1
+            .getInstance()
+            .post("/StorePost", data: requestBody);
+        if (response.statusCode == 200) {
+          Get.snackbar('Success', 'Post created successfully');
+          Get.offNamed(AppRoute.posts);
+          print(response.data);
         } else {
-          print('Connection Error: ${e.message}');
+          print('Error: ${response.statusCode} ${response.statusMessage}');
         }
-      } else if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        print('Timeout Exception: $e');
-      } else {
-        print('Dio Exception: $e');
+      } on DioException catch (e) {
+        if (e.type == DioExceptionType.connectionError) {
+          if (e.error is SocketException) {
+            print('Socket Exception: ${e.error}');
+          } else {
+            print('Connection Error: ${e.message}');
+          }
+        } else if (e.type == DioExceptionType.connectionTimeout ||
+            e.type == DioExceptionType.receiveTimeout) {
+          print('Timeout Exception: $e');
+        } else {
+          print('Dio Exception: $e');
+        }
+      } catch (e) {
+        print('Error: $e');
       }
-    } catch (e) {
-      print('Error: $e');
     }
   }
 }

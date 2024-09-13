@@ -14,7 +14,7 @@ class NewPost extends GetView<Newpostcontroller> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
         title: const Text('Create Post'),
         leading: IconButton(
@@ -24,7 +24,7 @@ class NewPost extends GetView<Newpostcontroller> {
                 AppRoute.posts); // Navigates back to the previous screen
           },
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: const Color.fromARGB(255, 4, 59, 154),
       ),
       body: SingleChildScrollView(
         child: SafeArea(
@@ -105,7 +105,7 @@ class NewPost extends GetView<Newpostcontroller> {
                 ),
                 const SizedBox(height: 18),
                 const Text(
-                  "We are the car located!",
+                  "Where is the car located",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 const SizedBox(height: 18),
@@ -171,11 +171,10 @@ class NewPost extends GetView<Newpostcontroller> {
                 ElevatedButton(
                   onPressed: () {
                     controller.postingCar();
-                    Get.offNamed(AppRoute.posts);
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Colors.black,
+                    backgroundColor: const Color.fromARGB(255, 4, 59, 154),
                     shadowColor: Colors.black,
                     elevation: 10,
                     shape: RoundedRectangleBorder(

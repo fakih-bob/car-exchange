@@ -15,7 +15,18 @@ class Updateuser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Color(0xFFF5F7FA),
+      appBar: AppBar(
+        title: const Text('Update User Profile'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offNamed(
+                AppRoute.posts); // Navigates back to the previous screen
+          },
+        ),
+        backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
@@ -23,7 +34,7 @@ class Updateuser extends StatelessWidget {
               children: [
                 const SizedBox(height: 25),
                 Text(
-                  "Edit your post",
+                  "Edit your Profile",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),
                 const SizedBox(height: 50),
@@ -41,17 +52,25 @@ class Updateuser extends StatelessWidget {
                 const SizedBox(height: 18),
                 MyTextfield(
                   obscureText: false,
-                  hintText: 'Color',
+                  hintText: 'PhoneNumber',
                   controller: updateusercontroller.phoneNumber,
                 ),
                 const SizedBox(height: 18),
                 ElevatedButton(
-                  onPressed: () {
-                    updateusercontroller.updateuser();
-                    Get.offNamed(AppRoute.user);
-                  },
-                  child: const Text('Update Post'),
-                ),
+                    onPressed: () {
+                      updateusercontroller.updateuser();
+                    },
+                    child: const Text('Update User'),
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                      textStyle: TextStyle(fontSize: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    )),
               ],
             ),
           ),

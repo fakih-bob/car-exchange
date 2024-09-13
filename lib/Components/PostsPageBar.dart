@@ -42,7 +42,7 @@ class PostsPageBar extends StatelessWidget {
               iconSize: 25,
               icon: const Icon(Icons.person),
               color: isLoggedIn
-                  ? Colors.blue
+                  ? const Color.fromARGB(255, 4, 59, 154)
                   : Colors.grey, // Change color based on login status
             );
           },

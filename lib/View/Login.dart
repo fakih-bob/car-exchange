@@ -8,8 +8,9 @@ class Login extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
+      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 4, 59, 154),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -31,7 +32,7 @@ class Login extends GetView<LoginController> {
                     height: 150,
                     decoration: BoxDecoration(
                       image: const DecorationImage(
-                        image: AssetImage('assets/images/logo.png'),
+                        image: AssetImage('assets/images/Header.jpg'),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.circular(15),
@@ -76,7 +77,7 @@ class Login extends GetView<LoginController> {
                         child: const Text(
                           "create an account?",
                           style: TextStyle(
-                            color: Colors.blue,
+                            color: const Color.fromARGB(255, 4, 59, 154),
                             decoration: TextDecoration.underline,
                           ),
                         ),
@@ -93,7 +94,7 @@ class Login extends GetView<LoginController> {
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Colors.black,
+                    backgroundColor: const Color.fromARGB(255, 4, 59, 154),
                     shadowColor: Colors.black,
                     elevation: 10,
                     shape: RoundedRectangleBorder(

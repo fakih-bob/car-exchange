@@ -15,8 +15,9 @@ class MyLikes extends StatelessWidget {
     return GetX<LikeController>(
       builder: (controller) {
         return Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Color(0xFFF5F7FA),
           appBar: AppBar(
+            backgroundColor: const Color.fromARGB(255, 4, 59, 154),
             title: const Text('Favorite Posts'),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),

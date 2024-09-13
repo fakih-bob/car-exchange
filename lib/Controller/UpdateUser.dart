@@ -1,8 +1,7 @@
 import 'package:carexchange/Controller/PostController.dart';
 import 'package:carexchange/Controller/UserContoller.dart';
 import 'package:carexchange/Core/networks/DioClient-auth.dart';
-import 'package:carexchange/models/Post.dart';
-import 'package:carexchange/models/UpdatingPost.dart';
+import 'package:carexchange/Routes/AppRoute.dart';
 import 'package:carexchange/models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,23 +30,40 @@ class Updateusercontroller extends GetxController {
   }
 
   Future<void> updateuser() async {
-    final UpdatedUser = {
+    // Check if any field is empty
+    if (name.text.isEmpty) {
+      Get.snackbar('Validation Error', 'Name is required');
+      return;
+    }
+
+    if (email.text.isEmpty) {
+      Get.snackbar('Validation Error', 'Email is required');
+      return;
+    }
+
+    if (phoneNumber.text.isEmpty) {
+      Get.snackbar('Validation Error', 'Phone number is required');
+      return;
+    }
+
+    final updatedUser = {
       "name": name.text,
       "email": email.text,
       "phoneNumber": phoneNumber.text
     };
 
     try {
-      var response =
-          await dioClient1.getInstance().put('/UserUpdate', data: UpdatedUser);
+      final response =
+          await dioClient1.getInstance().put('/UserUpdate', data: updatedUser);
 
       if (response.statusCode == 200) {
-        Get.snackbar('Success', 'UserInfo updated successfully');
+        Get.snackbar('Success', 'User info updated successfully');
+        Get.offNamed(AppRoute.user);
       } else {
-        Get.snackbar('Error', 'Failed to update post');
+        Get.snackbar('Error', 'Failed to update user info');
       }
     } catch (e) {
-      Get.snackbar('Error', 'An error occurred: $e');
+      Get.snackbar('Error', 'An error occurred: ${e.toString()}');
     }
   }
 
@@ -58,12 +74,10 @@ class Updateusercontroller extends GetxController {
       if (response.statusCode == 200) {
         Get.snackbar('Success', 'User removed successfully');
       } else {
-        print(
-            'Failed to remove favorite: ${response.statusCode} - ${response.statusMessage}');
-        throw Exception('Failed to remove favorite');
+        Get.snackbar('Error', 'Failed to remove user: ${response.statusCode}');
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to remove favorite: ${e.toString()}');
+      Get.snackbar('Error', 'Failed to remove user: ${e.toString()}');
     }
   }
 }

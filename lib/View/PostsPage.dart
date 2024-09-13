@@ -22,14 +22,13 @@ class _PostspageState extends State<Postspage> {
 
   Future<bool> _isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
-    // Check if the token exists and is not null
     return prefs.getString('token') != null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
         automaticallyImplyLeading: true,
         title: const PostsPageBar(),
@@ -41,7 +40,7 @@ class _PostspageState extends State<Postspage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            const SizedBox(height: 55),
+            const SizedBox(height: 10),
             const Text(
               "Welcome, User!",
               style: TextStyle(
@@ -50,27 +49,6 @@ class _PostspageState extends State<Postspage> {
                   fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.offNamed(AppRoute.newpost);
-              },
-              child: const Text("New post"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.offNamed(AppRoute.MyLikes);
-              },
-              child: const Text("Show my favorites"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Get.offNamed(AppRoute.MyPosts);
-              },
-              child: const Text("Show my posts"),
-            ),
-            const Spacer(),
             FutureBuilder<bool>(
               future: _isLoggedIn(),
               builder: (context, snapshot) {
@@ -79,78 +57,139 @@ class _PostspageState extends State<Postspage> {
                 }
                 final isLoggedIn = snapshot.data ?? false;
 
-                return ElevatedButton(
-                  onPressed: () {
-                    if (isLoggedIn) {
-                      controller.logOut();
-                    } else {
-                      Get.offNamed(
-                          AppRoute.login); // Redirect to login if not logged in
-                    }
-                  },
-                  child: Text(isLoggedIn ? "Logout" : "Login"),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isLoggedIn ? Colors.red : Colors.green,
-                  ),
+                return Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: isLoggedIn
+                          ? () => Get.offNamed(AppRoute.newpost)
+                          : null,
+                      child: const Text("New post"),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: isLoggedIn
+                          ? () => Get.offNamed(AppRoute.MyLikes)
+                          : null,
+                      child: const Text("Show my favorites"),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: isLoggedIn
+                          ? () => Get.offNamed(AppRoute.MyPosts)
+                          : null,
+                      child: const Text("Show my posts"),
+                    ),
+                    const SizedBox(height: 400),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (isLoggedIn) {
+                          controller.logOut();
+                        } else {
+                          Get.offNamed(AppRoute.login);
+                        }
+                      },
+                      child: Text(isLoggedIn ? "Logout" : "Login"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isLoggedIn ? Colors.red : Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 70),
+                  ],
                 );
               },
             ),
-            const SizedBox(height: 40),
           ],
         ),
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              const Searchbar(),
-              const SizedBox(height: 20),
-              Stack(
-                children: [
-                  SizedBox(
-                    height: 200,
-                    width: double.infinity,
-                    child: PageView.builder(
-                      itemCount: 4,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          height: 200,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            image: const DecorationImage(
-                              fit: BoxFit.fill,
-                              image: AssetImage('assets/images/Header.jpg'),
+          padding: EdgeInsets.only(
+            left: 10,
+            right: 10,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                const Searchbar(),
+                const SizedBox(height: 20),
+                Stack(
+                  children: [
+                    SizedBox(
+                      height: 200,
+                      width: double.infinity,
+                      child: PageView.builder(
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 200,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: const DecorationImage(
+                                fit: BoxFit.fill,
+                                image: AssetImage('assets/images/Header.jpg'),
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const Text(
+                  "All Categories",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                const Categories(),
+                const SizedBox(height: 10),
+                const Text(
+                  "Items",
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    controller.getPosts();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: const Color.fromARGB(255, 4, 59, 154),
+                    shadowColor: Colors.black,
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 10),
-              const Categories(),
-              const SizedBox(height: 10),
-              const Text(
-                "Items",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              Expanded(
-                child: Obx(() {
-                  var posts = controller.posts;
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 10,
+                    ),
+                    textStyle: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  child: const Text('All'),
+                ),
+                const SizedBox(height: 10),
+                Obx(() {
+                  var filteredPosts = controller.filteredPosts;
+                  var postsToDisplay =
+                      filteredPosts.isEmpty ? controller.posts : filteredPosts;
 
-                  if (posts.isEmpty) {
-                    return Center(child: Text("No posts available"));
+                  if (postsToDisplay.isEmpty) {
+                    return const Center(child: Text("No posts available"));
                   }
 
                   return ListView.separated(
                     padding: const EdgeInsets.all(20),
+                    shrinkWrap: true,
+                    physics:
+                        const NeverScrollableScrollPhysics(), // Disable scrolling within the ListView
                     itemBuilder: (context, index) {
-                      var post = posts[index];
+                      var post = postsToDisplay[index];
                       bool isFavorite = likecontroller.isFavorite(post.id);
 
                       return InkWell(
@@ -236,11 +275,11 @@ class _PostspageState extends State<Postspage> {
                     },
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 20),
-                    itemCount: posts.length,
+                    itemCount: postsToDisplay.length,
                   );
                 }),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
