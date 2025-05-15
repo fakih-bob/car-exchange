@@ -18,8 +18,12 @@ use App\Http\Controllers\orderController;
 
 Route::post('/register',[userController::class,'register']);
 
+
 Route::post('/login',[userController::class,'login']);
 
+
+
+Route::get('/GetDriverDetails/{id}',[driverController::class,'GetDriverDetails'])->middleware('auth:sanctum');
 
 Route::get('/AllMyOrders', [orderController::class, 'getUserOrders'])->middleware('auth:sanctum');
 

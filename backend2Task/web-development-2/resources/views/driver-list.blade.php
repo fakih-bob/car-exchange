@@ -38,11 +38,19 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
             margin-bottom: 1.25rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .driver-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .driver-info {
+            max-width: 60%;
         }
 
         .driver-card-title {
@@ -58,12 +66,16 @@
             margin-bottom: 1rem;
         }
 
+        .links-container {
+            margin-bottom: 1rem;
+        }
+
         .driver-card-link {
             display: inline-block;
             color: #2563eb;
             font-weight: 500;
             text-decoration: none;
-            margin-bottom: 1rem;
+            margin-right: 1rem;
         }
 
         .driver-card-link:hover {
@@ -79,6 +91,7 @@
             border-radius: 0.5rem;
             cursor: pointer;
             transition: background-color 0.2s ease;
+            white-space: nowrap;
         }
 
         .request-delivery-btn:hover {
@@ -88,6 +101,22 @@
         .request-delivery-btn[disabled] {
             background-color: #9ca3af;
             cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+            .driver-info {
+                max-width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            .driver-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .request-delivery-btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -116,20 +145,28 @@
                 const card = document.createElement("div");
                 card.className = "driver-card";
 
-                const isAvailable = driver.driver && driver.driver.status === 'available'; // safe check
+                const isAvailable = driver.driver && driver.driver.status === 'available';
 
                 card.innerHTML = `
-                    <h3 class="driver-card-title">${driver.name}</h3>
-                    <p class="driver-card-description">${driver.email}</p>
-                    <a href="/drivers/${driver.id}" class="driver-card-link">View Reviews & Rating</a>
-                    <button 
-                        onclick="requestDelivery(${driver.id})" 
-                        class="request-delivery-btn" 
-                        ${!isAvailable ? 'disabled' : ''}
-                    >
-                        ${isAvailable ? 'Request Delivery' : 'Unavailable'}
-                    </button>
+                    <div class="driver-info">
+                        <h3 class="driver-card-title">${driver.name}</h3>
+                        <p class="driver-card-description">${driver.email}</p>
+                        <div class="links-container">
+                            <a href="/drivers/${driver.id}" class="driver-card-link">View Reviews & Rating</a>
+                            <a href="/DriverDetails?id=${driver.id}" class="driver-card-link">View Details</a>
+                        </div>
+                    </div>
+                    <div>
+                        <button 
+                            onclick="requestDelivery(${driver.id})" 
+                            class="request-delivery-btn" 
+                            ${!isAvailable ? 'disabled' : ''}
+                        >
+                            ${isAvailable ? 'Request Delivery' : 'Unavailable'}
+                        </button>
+                    </div>
                 `;
+
                 driverListContainer.appendChild(card);
             });
         } catch (error) {

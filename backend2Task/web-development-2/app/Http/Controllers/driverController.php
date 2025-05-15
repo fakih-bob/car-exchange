@@ -116,6 +116,25 @@ class driverController extends Controller
         return view('driver.dashboard');
     }
 
+
+    public function DriverDetails()
+    {
+        return view('DriverDetails');
+    }
+
+    public function GetDriverDetails($id)
+{
+    $driver = Driver::where('user_id', $id)->first();
+
+    if (!$driver) {
+        return response()->json(['message' => 'Driver not found'], 404);
+    }
+
+    return response()->json(['data' => $driver], 200);
+}
+
+
+
     public function showPricingForm()
     {
         $driver = Driver::where('user_id', Auth::id())->first();

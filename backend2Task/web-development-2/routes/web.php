@@ -73,7 +73,7 @@ Route::get('/', function () {
 });
 
 
-
+Route::get('/DriverDetails', [driverController::class, 'DriverDetails'])->name('DriverDetails');
 Route::get('/payment-success', [paymentController::class, 'paymentSuccess'])->name('success');
 Route::get('/payment-cancel', [paymentController::class, 'paymentCancel'])->name('cancel');
 Route::get('/pay', [paymentController::class, 'showPaymentPage'])->name('pay');
